@@ -1,0 +1,52 @@
+<style>
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	span,
+	div,
+	a {
+		font-family: "Kaushan Script", cursive;
+		font-weight: 400;
+		font-style: normal;
+		text-décoration: none;
+	}
+	svg {
+		height: 48px;
+		max-width: 70px;
+	}
+</style>
+<header>
+	{% if app.user %}
+		<nav class="navbar navbar-expand-sm">
+			<div class="container-fluid d-flex justify-content-center position-relative">
+				<!-- Titre centré par rapport à la page -->
+				<h1 class="position-absolute" style="left: 50%; transform: translateX(-50%);">
+					<a class="text-decoration-none text-white" href="/">Sym Quizz World</a>
+				</h1>
+				<!-- Aligner les éléments de la barre de navigation à droite sans interférer avec le centrage du titre -->
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item m-1">
+						<a class="nav-link d-flex align-items-center text-decoration-none text-white" href="/">
+							{% include "svg/user.svg" %}
+							<h5 class="mb-0">{{ app.user.userIdentifier }}</h5>
+						</a>
+					</li>
+					<li class="nav-item m-1">
+						<a class="nav-link text-decoration-none" href="{{ path('app_logout') }}">
+							{% include "svg/logout.svg" %}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	{% else %}
+		<nav class="navbar navbar-expand-sm d-flex justify-content-center">
+			<h1>
+				<a class="text-decoration-none text-white" href="/">Sym Quizz World</a>
+			</h1>
+		</nav>
+	{% endif %}
+</header>

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion
+{% endblock %}
+
+{% block body %}
+	<section class="container bg-primary p-2 rounded-3 w-50 mt-5">
+		<div class="row">
+			<div class="col">
+				<h3 class="text-center">Connexion</h3>
+				<form method="post">
+					{% if error %}
+						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% endif %}
+
+					{% if app.user %}
+						<div class="mb-3 text-center">
+							Vous êtes connecté en tant que :
+							{{ app.user.userIdentifier }},
+							<a href="{{ path('app_logout') }}">Déconnexion</a>
+						</div>
+					{% else %}
+						<label for="inputUsername">Identifiant :</label>
+						<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control bg-white text-dark" autocomplete="username" required autofocus>
+						<label for="inputPassword" class="mt-2">Mot de passe :</label>
+						<input type="password" name="password" id="inputPassword" class="form-control bg-white text-dark" autocomplete="current-password" required>
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+						<div class="d-flex justify-content-center">
+							<button class="btn btn-lg btn-secondary mt-2" type="submit">
+								Connexion
+							</button>
+						</div>
+					{% endif %}
+				</form>
+			</div>
+		</div>
+	</section>
+	<br><br>
+	<div class="container bg-primary p-2 rounded-3 w-50">
+		<h5 class="text-center m-0">Pas de compte ? Inscrivez-vous
+			<a href="/">ici</a>
+			!</h5>
+	</div>
+{% endblock %}
