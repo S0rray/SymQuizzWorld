@@ -29,7 +29,7 @@
 				<!-- Aligner les éléments de la barre de navigation à droite sans interférer avec le centrage du titre -->
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item m-1">
-						<a class="nav-link d-flex align-items-center text-decoration-none text-white" href="/">
+						<a class="nav-link d-flex align-items-center text-decoration-none text-white" href="{{ path('profil_index')}}">
 							{% include "svg/user.svg" %}
 							<h5 class="mb-0">{{ app.user.userIdentifier }}</h5>
 						</a>
