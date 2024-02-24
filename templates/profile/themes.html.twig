@@ -3,18 +3,9 @@
 {% block title %}Hello ProfileController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-{% include "_partials/_menuprofile.html.twig" %}
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/DWWM/Eval_final/SymQuizzWorld/src/Controller/ProfileController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/DWWM/Eval_final/SymQuizzWorld/templates/profile/index.html.twig</code></li>
-    </ul>
-</div>
+	<div class="d-flex">
+		{% include "_partials/_menuprofile.html.twig" %}
+		<div class="container bg-light p-3 rounded-3 mt-3 d-flex justify-content-center align-items-center w-75">
+		</div>
+	</div>
 {% endblock %}
