@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Themes;
+use App\Form\ThemesFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,8 +28,14 @@ class ProfileController extends AbstractController
     #[Route('/mes-themes', name: 'themes')]
     public function themes(): Response
     {
+        //Création d'un nouveau thème
+        $theme = new Themes();
+
+        //Création du formulaire
+        $themeForm = $this->createForm(ThemesFormType::class, $theme);
+
         return $this->render('profile/themes.html.twig', [
-            'controller_name' => 'ProfileThemesController',
+            'themeForm' => $themeForm->createView()
         ]);
     }
     #[Route('/supprimer-mon-compte', name: 'remove')]
