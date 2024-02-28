@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Themes;
 use App\Form\ThemesFormType;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/profil', name: 'profil_')]
 class ProfileController extends AbstractController
@@ -26,13 +29,23 @@ class ProfileController extends AbstractController
         ]);
     }
     #[Route('/mes-themes', name: 'themes')]
-    public function themes(): Response
+    public function themes(Request $request, EntityManager $em, SluggerInterface $slugger): Response
     {
         //Création d'un nouveau thème
         $theme = new Themes();
 
         //Création du formulaire
         $themeForm = $this->createForm(ThemesFormType::class, $theme);
+
+        //Traitement de la requête du formulaire
+        $themeForm->handleRequest($request);
+
+        //Vérification si le formulaire est soumis ET valide
+        if($themeForm->isSubmitted() && $themeForm->isValid())
+        {
+            //Génération du slug
+            $slug = $slugger->slug($theme->getName());
+        }
 
         return $this->render('profile/themes.html.twig', [
             'themeForm' => $themeForm->createView()
