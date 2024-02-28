@@ -45,10 +45,27 @@ class ProfileController extends AbstractController
         {
             //Génération du slug
             $slug = $slugger->slug($theme->getName());
+            $theme->setSlug($slug);
+
+            //Stockage du formulaire
+            $em->persist($theme);
+            $em->flush();
+
+            $this->addFlash('success','Theme créer avec succès');
+
+            //Redirection
+            return $this->redirectToRoute('ajout_theme');
         }
 
         return $this->render('profile/themes.html.twig', [
             'themeForm' => $themeForm->createView()
+        ]);
+    }
+    #[Route('/mes-themes/ajout', name: 'ajout_theme')]
+    public function addTheme(): Response
+    {
+        return $this->render('profile/ajout_theme.html.twig', [
+            'controller_name' => 'ProfileRemoveController',
         ]);
     }
     #[Route('/supprimer-mon-compte', name: 'remove')]
