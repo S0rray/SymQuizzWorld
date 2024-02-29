@@ -6,34 +6,10 @@
 {% block body %}
 	<div class="d-flex">
 		{% include "_partials/_menuprofile.html.twig" %}
-		<div class="container container-secondary p-3 rounded-3 mt-3 d-flex justify-content-center align-items-center w-75">
-			<div class="accordion" id="accordionTheme">
-				<div class="accordion-item">
-					<h2 class="accordion-header" id="myThemes">
-						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMyTheme" aria-expanded="false" aria-controls="collapseMyTheme">
-							Mes thèmes
-						</button>
-					</h2>
-					<div id="collapseMyTheme" class="accordion-collapse collapse" aria-labelledby="myThemes" data-bs-parent="#accordionTheme" style="">
-						<div class="accordion-body">
-							<strong>This is the first item's accordion body.</strong>
-							It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the
-							<code>.accordion-body</code>, though the transition does limit overflow.
-						</div>
-					</div>
-				</div>
-				<div class="accordion-item">
-					<h2 class="accordion-header" id="createTheme">
-						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCreateTheme" aria-expanded="false" aria-controls="collapseCreateTheme">
-							Créer un thème
-						</button>
-					</h2>
-					<div id="collapseCreateTheme" class="accordion-collapse collapse" aria-labelledby="createTheme" data-bs-parent="#accordionTheme">
-						<div class="accordion-body">
-							{% include "profile/_form.html.twig" %}
-						</div>
-					</div>
-				</div>
+		<div class="card border-primary mb-3" style="max-width: 20rem;">
+			<div class="card-header">Nom theme</div>
+			<div class="card-body">
+				{% include "profile/_form_ajout_theme.html.twig" %}
 			</div>
 		</div>
 	</div>

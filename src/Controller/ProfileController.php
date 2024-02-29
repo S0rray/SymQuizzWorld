@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Proposals;
+use App\Entity\Questions;
 use App\Entity\Themes;
+use App\Form\ProposalsFormType;
+use App\Form\QuestionsFormType;
 use App\Form\ThemesFormType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,6 +51,9 @@ class ProfileController extends AbstractController
             $slug = $slugger->slug($theme->getName());
             $theme->setSlug($slug);
 
+            //Définition du statut
+            $theme->setStatut('En cours');
+
             //Stockage du formulaire
             $em->persist($theme);
             $em->flush();
@@ -62,8 +69,30 @@ class ProfileController extends AbstractController
         ]);
     }
     #[Route('/mes-themes/ajout', name: 'ajout_theme')]
-    public function addTheme(): Response
+    public function addTheme(Request $request): Response
     {
+        //Création d'une nouvelle question
+        $question = new Questions();
+
+        //Création du formulaire nouvelle question
+        $questionForm = $this->createForm(QuestionsFormType::class, $question);
+
+        //Création d'une nouvelle proposition
+        $proposal = new Proposals();
+
+        //Création du formulaire nouvelle proposition
+        $proposalForm = $this->createForm(ProposalsFormType::class, $proposal);
+
+        //Création du formulaire imbriqué
+        $addQuestionForm = $this->createFormBuilder()
+            ->add('question', QuestionsFormType::class)
+            ->add('proposal', ProposalsFormType::class)
+            ->getForm();
+        
+        //Traitement de la requête du formulaire
+        $addQuestionForm->handleRequest($request);
+
+
         return $this->render('profile/ajout_theme.html.twig', [
             'controller_name' => 'ProfileRemoveController',
         ]);
