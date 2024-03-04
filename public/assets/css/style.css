@@ -6,6 +6,10 @@
 {
     color: #fff;
 }
+.collapsed
+{
+    color: #000;
+}
 
 #accordionTheme
 {

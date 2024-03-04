@@ -1,11 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Confirmation de la suppression de compte{% endblock %}
 
 {% block body %}
 	<div class="d-flex">
 		{% include "_partials/_menuprofile.html.twig" %}
-		<div class="container container-secondary p-3 rounded-3 mt-3 d-flex justify-content-center align-items-center w-75">
+		<div class="container container-secondary p-3 rounded-3 mt-3 d-flex flex-column justify-content-center align-items-center w-75">
+			<h3>Souhaitez-vous vraiment supprimer votre compte ?</h3>
+		
+			<p>Saisissez votre mot de passe pour confirmer la suppression de votre compte :</p>
+		
+			{% if app.flashes('error') %}
+				<div class="alert alert-danger">
+					{{ app.flashes('error')[0] }}
+				</div>
+			{% endif %}
+		
+			<form method="post" action="{{ path('profil_confirm_remove') }}">
+				<div class="">
+					<br>
+					<label for="mot_de_passe" class="form-label">Mot de passe :</label>
+					<input type="password" class="form-control" id="mot_de_passe" name="mot_de_passe">
+					<br>
+					<button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+				</div>
+			</form>
 		</div>
 	</div>
 {% endblock %}

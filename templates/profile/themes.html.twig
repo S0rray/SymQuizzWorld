@@ -16,9 +16,18 @@
 					</h2>
 					<div id="collapseMyTheme" class="accordion-collapse collapse" aria-labelledby="myThemes" data-bs-parent="#accordionTheme" style="">
 						<div class="accordion-body">
-							<strong>This is the first item's accordion body.</strong>
-							It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the
-							<code>.accordion-body</code>, though the transition does limit overflow.
+							{% set user = app.user %}
+							{% if user.themes is not empty %}
+								<h3>Thèmes de {{ user.username }} :</h3>
+								<ul>
+									{% for theme in user.themes %}
+										<li>{{ theme.name }}</li>
+										<!-- Affichez d'autres détails du thème si nécessaire -->
+									{% endfor %}
+								</ul>
+							{% else %}
+								<p>{{ user.username }}, vous n'avez pas créé de quizz.</p>
+							{% endif %}
 						</div>
 					</div>
 				</div>
@@ -31,6 +40,7 @@
 					<div id="collapseCreateTheme" class="accordion-collapse collapse" aria-labelledby="createTheme" data-bs-parent="#accordionTheme">
 						<div class="accordion-body">
 							{% include "profile/_form_theme.html.twig" %}
+							<button type="button" class="btn btn-primary">Créer</button>
 						</div>
 					</div>
 				</div>

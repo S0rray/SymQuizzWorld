@@ -9,6 +9,7 @@ use App\Form\ProposalsFormType;
 use App\Form\QuestionsFormType;
 use App\Form\ThemesFormType;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,13 @@ class ProfileController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(): Response
     {
+        // Vérifier si l'utilisateur est connecté ou non
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+
+
         return $this->render('profile/index.html.twig', [
             'controller_name' => 'ProfileController',
         ]);
@@ -28,13 +36,27 @@ class ProfileController extends AbstractController
     #[Route('/mes-scores', name: 'scores')]
     public function scores(): Response
     {
+        // Vérifier si l'utilisateur est connecté ou non
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+
+
         return $this->render('profile/scores.html.twig', [
             'controller_name' => 'ProfileScoresController',
         ]);
     }
     #[Route('/mes-themes', name: 'themes')]
-    public function themes(Request $request, EntityManager $em, SluggerInterface $slugger): Response
+    public function themes(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
+        // Vérifier si l'utilisateur est connecté ou non
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+
+
         //Création d'un nouveau thème
         $theme = new Themes();
 
@@ -71,6 +93,13 @@ class ProfileController extends AbstractController
     #[Route('/mes-themes/ajout', name: 'ajout_theme')]
     public function addTheme(Request $request): Response
     {
+        // Vérifier si l'utilisateur est connecté ou non
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+
+
         //Création d'une nouvelle question
         $question = new Questions();
 
@@ -97,9 +126,32 @@ class ProfileController extends AbstractController
             'controller_name' => 'ProfileRemoveController',
         ]);
     }
+
+    // Partie de suppression du compte
     #[Route('/supprimer-mon-compte', name: 'remove')]
     public function remove(): Response
     {
+        // Vérifier si l'utilisateur est connecté ou non
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+
+        
+        return $this->render('profile/remove.html.twig', [
+            'controller_name' => 'ProfileRemoveController',
+        ]);
+    }
+    #[Route('/supprimer-mon-compte/confirmation', name: 'confirm_remove')]
+    public function confirmRemove(): Response
+    {
+        // Vérifier si l'utilisateur est connecté ou non
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+
+        
         return $this->render('profile/remove.html.twig', [
             'controller_name' => 'ProfileRemoveController',
         ]);

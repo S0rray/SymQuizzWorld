@@ -7,6 +7,10 @@
 	<div class="d-flex">
 		{% include "_partials/_menuprofile.html.twig" %}
 		<div class="container container-secondary p-3 rounded-3 mt-3 d-flex justify-content-center align-items-center w-75">
+			{% set user = app.user %}
+			Votre nom d'utilisateur : {{ user.username }} <br>
+			Votre adresse email : {{ user.email }} <br>
+			Compte créer le {{ user.created_at | date('d/m/Y') }} à {{ user.created_at | date('H:i:s') }}
 		</div>
 	</div>
 {% endblock %}
