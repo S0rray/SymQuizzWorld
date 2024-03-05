@@ -57,6 +57,8 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        // Récupération de l'utilisateur
+        $user = $this->getUser();
 
         //Création d'un nouveau thème
         $theme = new Themes();
@@ -70,19 +72,18 @@ class ProfileController extends AbstractController
         //Vérification si le formulaire est soumis ET valide
         if($themeForm->isSubmitted() && $themeForm->isValid())
         {
-            //Récupération des images
-            $images = $themeForm->get('picture')->getData();
+            //Récupération de l'image
+            $picture = $themeForm->get('picture')->getData();
 
-            foreach($images as $image)
-            {
-                //On définit le dossier de destination
-                $folder = 'themes';
+            //On définit le dossier de destination
+            $folder = 'themes';
+            
+            //Appel du service d'ajout
+            $fichier = $pictureService->add($picture, $folder, 862, 398);
+            
+            $theme->setPicture($fichier);
 
-                //Appel du service d'ajout
-                $fichier = $pictureService->add($image, $folder, 862, 398);
-
-                $theme->setPicture($fichier);
-            }
+            $theme->setCreatorId($user);
 
             //Génération du slug
             $slug = $slugger->slug($theme->getName());
@@ -98,7 +99,7 @@ class ProfileController extends AbstractController
             $this->addFlash('success','Theme créer avec succès');
 
             //Redirection
-            return $this->redirectToRoute('ajout_question_debutant');
+            return $this->redirectToRoute('profil_ajout_question_debutant');
         }
 
         return $this->render('profile/themes.html.twig', [
@@ -106,7 +107,7 @@ class ProfileController extends AbstractController
         ]);
     }
     #[Route('/mes-themes/ajout/{slug}', name: 'ajout_question_debutant')]
-    public function addNovice(Request $request): Response
+    public function addNovice(Request $request, EntityManagerInterface $emi, string $slug): Response
     {
         // Vérifier si l'utilisateur est connecté ou non
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -114,10 +115,21 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        // Récupération du thème via le slug
+        $theme = $emi->getRepository(Themes::class)->findOneBy(['slug' => $slug]);
+
+        // Gestion de l'erreur si le theme n'est pas trouvé
+        if(!$theme)
+        {
+            throw $this->createNotFoundException('Le thème correspondant a "' . $slug . '" n\'existe pas.');
+        }
 
         //Création d'une nouvelle question
         $question = new Questions();
 
+        // Définir le thème lié à la question
+        $question->setIdTheme($theme);
+        dd($question);
         //Création du formulaire nouvelle question
         $questionForm = $this->createForm(QuestionsFormType::class, $question);
 

@@ -1,5 +1,6 @@
-{{ form_start(themeForm, { 'attr': {'action': path('profil_themes')} }) }}
+{{ form_start(themeForm) }}
     {{ form_row(themeForm.name) }}
     {{ form_row(themeForm.difficulty) }}
     {{ form_row(themeForm.picture) }}
+	<button type="submit" class="btn btn-primary">{{ button_label|default('Créer') }}</button>
 {{ form_end(themeForm) }}

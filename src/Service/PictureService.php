@@ -10,7 +10,7 @@ class PictureService
 {
     private $params;
 
-    public function __construc(ParameterBagInterface $params)
+    public function __construct(ParameterBagInterface $params)
     {
         $this->params = $params;
     }
