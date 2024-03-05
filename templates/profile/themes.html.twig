@@ -40,7 +40,7 @@
 					<div id="collapseCreateTheme" class="accordion-collapse collapse" aria-labelledby="createTheme" data-bs-parent="#accordionTheme">
 						<div class="accordion-body">
 							{% include "profile/_form_theme.html.twig" %}
-							<button type="button" class="btn btn-primary">Créer</button>
+							<button type="submit" class="btn btn-primary" action="{{ path('profil_themes') }}">Créer</button>
 						</div>
 					</div>
 				</div>

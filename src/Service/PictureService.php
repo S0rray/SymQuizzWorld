@@ -89,7 +89,7 @@ class PictureService
         return $fichier;
     }
 
-    public function delete(string $fichier, ?string $folder = '', ?int $width = 250, ?int $height = 250)
+    public function delete(string $fichier, ?string $folder = '', ?int $width = 862, ?int $height = 398)
     {
         if($fichier !== 'default.webp')
         {

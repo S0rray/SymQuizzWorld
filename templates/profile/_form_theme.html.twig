@@ -1,4 +1,4 @@
-{{ form_start(themeForm) }}
+{{ form_start(themeForm, { 'attr': {'action': path('profil_themes')} }) }}
     {{ form_row(themeForm.name) }}
     {{ form_row(themeForm.difficulty) }}
     {{ form_row(themeForm.picture) }}

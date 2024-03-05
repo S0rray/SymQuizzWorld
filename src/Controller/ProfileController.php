@@ -8,6 +8,7 @@ use App\Entity\Themes;
 use App\Form\ProposalsFormType;
 use App\Form\QuestionsFormType;
 use App\Form\ThemesFormType;
+use App\Service\PictureService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,7 +49,7 @@ class ProfileController extends AbstractController
         ]);
     }
     #[Route('/mes-themes', name: 'themes')]
-    public function themes(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    public function addThemes(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService): Response
     {
         // Vérifier si l'utilisateur est connecté ou non
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -69,6 +70,20 @@ class ProfileController extends AbstractController
         //Vérification si le formulaire est soumis ET valide
         if($themeForm->isSubmitted() && $themeForm->isValid())
         {
+            //Récupération des images
+            $images = $themeForm->get('picture')->getData();
+
+            foreach($images as $image)
+            {
+                //On définit le dossier de destination
+                $folder = 'themes';
+
+                //Appel du service d'ajout
+                $fichier = $pictureService->add($image, $folder, 862, 398);
+
+                $theme->setPicture($fichier);
+            }
+
             //Génération du slug
             $slug = $slugger->slug($theme->getName());
             $theme->setSlug($slug);
@@ -83,15 +98,15 @@ class ProfileController extends AbstractController
             $this->addFlash('success','Theme créer avec succès');
 
             //Redirection
-            return $this->redirectToRoute('ajout_theme');
+            return $this->redirectToRoute('ajout_question_debutant');
         }
 
         return $this->render('profile/themes.html.twig', [
             'themeForm' => $themeForm->createView()
         ]);
     }
-    #[Route('/mes-themes/ajout', name: 'ajout_theme')]
-    public function addTheme(Request $request): Response
+    #[Route('/mes-themes/ajout/{slug}', name: 'ajout_question_debutant')]
+    public function addNovice(Request $request): Response
     {
         // Vérifier si l'utilisateur est connecté ou non
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -122,7 +137,7 @@ class ProfileController extends AbstractController
         $addQuestionForm->handleRequest($request);
 
 
-        return $this->render('profile/ajout_theme.html.twig', [
+        return $this->render('profile/ajout_question_debutant.html.twig', [
             'controller_name' => 'ProfileRemoveController',
         ]);
     }

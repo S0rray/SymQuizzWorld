@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Themes;
 use App\Entity\Users;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,8 +19,15 @@ class ThemesFormType extends AbstractType
             ->add('name', options:[
                 'label' => 'Nom'
             ])
-            ->add('difficulty', options:[
-                'label' => 'Difficulté'
+            ->add('difficulty', ChoiceType::class, [
+                'label' => 'Difficulté',
+                'choices' => [
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4,
+                    '5' => 5,
+                ]
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Bandeau',
