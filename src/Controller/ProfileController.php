@@ -101,7 +101,7 @@ class ProfileController extends AbstractController
             $this->addFlash('success','Theme créer avec succès');
 
             //Redirection
-            return $this->redirectToRoute('profil_ajout_question');
+            return $this->redirectToRoute('profil_ajout_question', ['slug' => $theme->getSlug()]);
         }
 
         return $this->render('profile/themes.html.twig', [
@@ -210,6 +210,10 @@ class ProfileController extends AbstractController
             }
             elseif($numberQuestion == 30)
             {
+                // Mettre à jour le statut du thème en "Complet"
+                $theme->setStatut('Complet');
+                $emi->flush();
+
                 return $this->redirectToRoute('profil_themes');
             }
         }

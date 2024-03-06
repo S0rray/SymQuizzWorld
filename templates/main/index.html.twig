@@ -3,5 +3,26 @@
 {% block title %}SymQuizzWorld - Accueil{% endblock %}
 
 {% block body %}
+<div class="container">
+    {# Affichage des thèmes complets #}
+    {% for theme in completedThemes %}
+    <div class="card col-3">
+        <div class="card-body">
+            <h5 class="card-title text-center">{{ theme.name }}</h5>
+            <img src="{{ asset('assets/uploads/themes/mini/862x398-' ~ theme.picture) }}" class="card-img mb-2" alt="{{ theme.name }}">
+            <div class="d-flex justify-content-between">
+                {% for difficulty in difficulties %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="optionsRadios" id="{{ difficulty.id }}" value="option1" checked="" data-dashlane-rid="012abbf69d0b9427" data-form-type="other">
+                    <label class="form-check-label" for="{{ difficulty.id }}">
+                        {{ difficulty.name }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>    
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 {% endblock %}
