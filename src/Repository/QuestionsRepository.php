@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Themes;
 use App\Entity\Questions;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Difficulties;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Questions>
@@ -19,6 +21,28 @@ class QuestionsRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Questions::class);
+    }
+
+    public function findHighestQuestionNumberForThemeAndDifficulty(Themes $theme, Difficulties $difficulty): ?int
+    {
+        return $this->createQueryBuilder('q')
+            ->select('MAX(q.number) AS highest_number')
+            ->where('q.theme = :theme')
+            ->andWhere('q.difficulty = :difficulty')
+            ->setParameter('theme', $theme)
+            ->setParameter('difficulty', $difficulty)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findHighestQuestionNumberForTheme(Themes $theme): ?int
+    {
+        return $this->createQueryBuilder('q')
+            ->select('MAX(q.number) AS highest_number')
+            ->where('q.theme = :theme')
+            ->setParameter('theme', $theme)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
 //    /**

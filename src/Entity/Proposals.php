@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProposalsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProposalsRepository::class)]
 class Proposals
@@ -14,16 +15,20 @@ class Proposals
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $proposal_1 = null;
+    #[Assert\NotBlank(message:'Veuillez insérer une proposition de réponse !')]
+    private ?string $firstProposal = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $proposal_2 = null;
+    #[Assert\NotBlank(message:'Veuillez insérer une proposition de réponse !')]
+    private ?string $secondProposal = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $proposal_3 = null;
+    #[Assert\NotBlank(message:'Veuillez insérer une proposition de réponse !')]
+    private ?string $thirdProposal = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $proposal_4 = null;
+    #[Assert\NotBlank(message:'Veuillez insérer une proposition de réponse !')]
+    private ?string $fourthProposal = null;
 
     #[ORM\ManyToOne(inversedBy: 'proposals')]
     #[ORM\JoinColumn(nullable: false)]
@@ -34,50 +39,50 @@ class Proposals
         return $this->id;
     }
 
-    public function getProposal_1(): ?string
+    public function getFirstProposal(): ?string
     {
-        return $this->proposal_1;
+        return $this->firstProposal;
     }
 
-    public function setProposal_1(string $proposal_1): static
+    public function setFirstProposal(string $firstProposal): static
     {
-        $this->proposal_1 = $proposal_1;
+        $this->firstProposal = $firstProposal;
 
         return $this;
     }
 
-    public function getProposal_2(): ?string
+    public function getSecondProposal(): ?string
     {
-        return $this->proposal_2;
+        return $this->secondProposal;
     }
 
-    public function setProposal_2(string $proposal_2): static
+    public function setSecondProposal(string $secondProposal): static
     {
-        $this->proposal_2 = $proposal_2;
+        $this->secondProposal = $secondProposal;
 
         return $this;
     }
 
-    public function getProposal_3(): ?string
+    public function getThirdProposal(): ?string
     {
-        return $this->proposal_3;
+        return $this->thirdProposal;
     }
 
-    public function setProposal_3(string $proposal_3): static
+    public function setThirdProposal(string $thirdProposal): static
     {
-        $this->proposal_3 = $proposal_3;
+        $this->thirdProposal = $thirdProposal;
 
         return $this;
     }
 
-    public function getProposal_4(): ?string
+    public function getFourthProposal(): ?string
     {
-        return $this->proposal_4;
+        return $this->fourthProposal;
     }
 
-    public function setProposal_4(string $proposal_4): static
+    public function setFourthProposal(string $fourthProposal): static
     {
-        $this->proposal_4 = $proposal_4;
+        $this->fourthProposal = $fourthProposal;
 
         return $this;
     }

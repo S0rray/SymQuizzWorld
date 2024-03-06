@@ -1,10 +1,6 @@
 {{ form_start(addQuestionForm) }}
-    {{ form_row(questionForm.question) }}
-    {{ form_row(questionForm.answer) }}
-    {{ form_row(questionForm.anecdote) }}
+    {{ form_row(addQuestionForm.question) }}
+    {{ form_row(addQuestionForm.proposal) }}
 
-    {{ form_row(proposalForm.proposal_1) }}
-    {{ form_row(proposalForm.proposal_2) }}
-    {{ form_row(proposalForm.proposal_3) }}
-    {{ form_row(proposalForm.proposal_4) }}
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
 {{ form_end(addQuestionForm) }}

@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ThemesFormType extends AbstractType
 {
@@ -33,7 +34,20 @@ class ThemesFormType extends AbstractType
                 'label' => 'Bandeau',
                 'multiple' => false,
                 'mapped' => false,
-                'required' => true
+                'required' => true,
+                'constraints' => [
+                    new Image([
+                        'extensions' => [
+                            'jpg',
+                            'jpeg',
+                            'png',
+                            'webp'
+                        ],
+                        'extensionsMessage' => 'L\'image {{ name }} doit être de type {{ types }} et pas {{ type }} !',
+                        'maxSize' => '1M',
+                        'maxSizeMessage' => 'L\'image {{name }} ne doit pas dépasser la taille de {{ limite }}{{ suffix }} !'
+                    ])
+                ]
             ])
         ;
     }

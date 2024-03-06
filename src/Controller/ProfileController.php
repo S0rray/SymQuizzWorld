@@ -2,20 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Themes;
 use App\Entity\Proposals;
 use App\Entity\Questions;
-use App\Entity\Themes;
+use App\Entity\Difficulties;
+use App\Form\ThemesFormType;
 use App\Form\ProposalsFormType;
 use App\Form\QuestionsFormType;
-use App\Form\ThemesFormType;
 use App\Service\PictureService;
 use Doctrine\ORM\EntityManager;
+use App\Form\AddQuestionFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/profil', name: 'profil_')]
 class ProfileController extends AbstractController
@@ -99,15 +101,15 @@ class ProfileController extends AbstractController
             $this->addFlash('success','Theme créer avec succès');
 
             //Redirection
-            return $this->redirectToRoute('profil_ajout_question_debutant');
+            return $this->redirectToRoute('profil_ajout_question');
         }
 
         return $this->render('profile/themes.html.twig', [
             'themeForm' => $themeForm->createView()
         ]);
     }
-    #[Route('/mes-themes/ajout/{slug}', name: 'ajout_question_debutant')]
-    public function addNovice(Request $request, EntityManagerInterface $emi, string $slug): Response
+    #[Route('/mes-themes/ajout/{slug}', name: 'ajout_question')]
+    public function addQuestion(Request $request, EntityManagerInterface $emi, string $slug): Response
     {
         // Vérifier si l'utilisateur est connecté ou non
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -124,33 +126,100 @@ class ProfileController extends AbstractController
             throw $this->createNotFoundException('Le thème correspondant a "' . $slug . '" n\'existe pas.');
         }
 
-        //Création d'une nouvelle question
+        // Récupération du nom du thème
+        $themeName = $theme->getName();
+
+        // Création d'une nouvelle question
         $question = new Questions();
 
-        // Définir le thème lié à la question
-        $question->setIdTheme($theme);
-        dd($question);
-        //Création du formulaire nouvelle question
-        $questionForm = $this->createForm(QuestionsFormType::class, $question);
+        // Récupérer le numéro de question le plus grand
+        $highestQuestionNumber = $emi->getRepository(Questions::class)->findHighestQuestionNumberForTheme($theme);
 
-        //Création d'une nouvelle proposition
+        // Définition du numéro de question
+        if(!$highestQuestionNumber)
+        {
+            $numberQuestion = 1;
+        }
+        elseif($highestQuestionNumber < 30)
+        {
+            $numberQuestion = $highestQuestionNumber+1;
+        }
+        else
+        {
+            return $this->redirectToRoute('profil_themes');
+        }
+
+        // Définition de la difficulté
+        if($numberQuestion <= 10)
+        {
+            $difficulte = 'Débutant';
+        }
+        elseif($numberQuestion > 10 && $numberQuestion <= 20)
+        {
+            $difficulte = 'Confirmé';
+        }
+        elseif($numberQuestion > 20)
+        {
+            $difficulte = 'Expert';
+        }
+        $difficulty = $emi->getRepository(Difficulties::class)->findOneBy(['name' => $difficulte]);
+        
+        
+        // Création d'une nouvelle proposition
         $proposal = new Proposals();
 
-        //Création du formulaire nouvelle proposition
-        $proposalForm = $this->createForm(ProposalsFormType::class, $proposal);
-
-        //Création du formulaire imbriqué
-        $addQuestionForm = $this->createFormBuilder()
-            ->add('question', QuestionsFormType::class)
-            ->add('proposal', ProposalsFormType::class)
-            ->getForm();
+        $addQuestionForm = $this->createForm(AddQuestionFormType::class, ['question' => $question, 'proposal' => $proposal]);
         
-        //Traitement de la requête du formulaire
+        // Traitement de la requête du formulaire
         $addQuestionForm->handleRequest($request);
 
+        //Vérification si le formulaire est soumis ET valide
+        if($addQuestionForm->isSubmitted() && $addQuestionForm->isValid())
+        {
+            // Définir le thème lié à la question
+            $question->setIdTheme($theme);
 
-        return $this->render('profile/ajout_question_debutant.html.twig', [
-            'controller_name' => 'ProfileRemoveController',
+            // Définir le numéro de la question
+            $question->setNumber($numberQuestion);
+
+            // Définir la difficulté
+            $question->setIdDifficulty($difficulty);
+
+            //Stockage du formulaire question
+            $emi->persist($question);
+            $emi->flush();
+
+            // On récupère l'id de la question qu'on vient de créer via l'objet question
+            $questionId = $question->getId();
+            $questionObject = $emi->getRepository(Questions::class)->find($questionId);
+
+            $proposal->setIdQuestion($questionObject);
+
+            // Stockage du formulaire proposal
+            $emi->persist($proposal);
+            $emi->flush();
+
+
+
+            $this->addFlash('success','Theme créer avec succès');
+
+            // Redirection en fonction du numéro de la question
+            if($numberQuestion < 30)
+            {
+                return $this->redirectToRoute('profil_ajout_question', ['slug' => $theme->getSlug()]);
+            }
+            elseif($numberQuestion == 30)
+            {
+                return $this->redirectToRoute('profil_themes');
+            }
+        }
+
+
+        return $this->render('profile/ajout_question.html.twig', [
+            'addQuestionForm' => $addQuestionForm->createView(),
+            'themeName' => $themeName,
+            'i' => $numberQuestion,
+            'difficulte' => $difficulte,
         ]);
     }
 

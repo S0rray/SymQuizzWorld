@@ -7,6 +7,7 @@ use App\Repository\ThemesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ThemesRepository::class)]
 class Themes
@@ -19,9 +20,11 @@ class Themes
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank(message:'Veuillez insérer un nom à votre thème !')]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:'Veuillez sélectionner la difficulté du thème !')]
     private ?int $difficulty = null;
 
     #[ORM\Column(length: 50)]

@@ -6,6 +6,7 @@ use App\Repository\QuestionsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuestionsRepository::class)]
 class Questions
@@ -19,12 +20,15 @@ class Questions
     private ?int $number = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:'Veuillez insérer un ennoncé de votre question !')]
     private ?string $question = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:'Veuillez renseigner la réponse de votre question !')]
     private ?string $answer = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:'Veuillez insérer une anecdote concernant votre question !')]
     private ?string $anecdote = null;
 
     #[ORM\ManyToOne(inversedBy: 'questions')]

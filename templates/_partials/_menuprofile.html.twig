@@ -11,7 +11,7 @@
 			</a></h3>
 		</li>
 		<li class="nav-item">
-			<h3><a href="{{ path('profil_themes') }}" class="nav-link text-center {% if app.request.attributes.get('_route') == 'profil_themes' %}menu-actif{% else %}link-body-emphasis{% endif %}">
+			<h3><a href="{{ path('profil_themes') }}" class="nav-link text-center {% if app.request.attributes.get('_route') == 'profil_themes' or app.request.attributes.get('_route') ==  'profil_ajout_question' %}menu-actif{% else %}link-body-emphasis{% endif %}">
 				Mes thèmes
 			</a></h3>
 		</li>
