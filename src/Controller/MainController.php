@@ -26,7 +26,7 @@ class MainController extends AbstractController
         $completedThemes = $emi->getRepository(Themes::class)->findBy(['statut' => 'Complet']);
 
         // Récupération des difficultés
-        $difficulties = $emi->getRepository(Difficulties::class)->findAll();
+        $difficulties = $emi->getRepository(Difficulties::class)->findBy([], ['id' => 'ASC']);
 
         return $this->render('main/index.html.twig', [
             'completedThemes' => $completedThemes,

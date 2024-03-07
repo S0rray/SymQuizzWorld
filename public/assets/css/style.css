@@ -15,3 +15,21 @@
 {
     width: 95%;
 }
+
+.userIntro, .questionLabel
+{
+    color: #000;
+}
+
+.imgIntro
+{
+    height: 398px;
+    width: 862px;
+    border: #000 4px solid;
+    border-radius: 10px;
+}
+
+.proposals-container
+{
+    justify-content: space-around;
+}

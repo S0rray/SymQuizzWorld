@@ -13,10 +13,12 @@
             <div class="d-flex justify-content-between">
                 {% for difficulty in difficulties %}
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="optionsRadios" id="{{ difficulty.id }}" value="option1" checked="" data-dashlane-rid="012abbf69d0b9427" data-form-type="other">
-                    <label class="form-check-label" for="{{ difficulty.id }}">
-                        {{ difficulty.name }}
-                    </label>
+                    <a href="{{ path('quizz_start', {'slug': theme.slug, 'name': difficulty.name }) }}">
+                        <input class="form-check-input" type="radio" name="{{ theme.name }}_difficulty" id="{{ difficulty.id }}" value="{{ difficulty.name }}" data-dashlane-rid="012abbf69d0b9427" data-form-type="other">
+                        <label class="form-check-label" for="{{ difficulty.id }}">
+                            {{ difficulty.name }}
+                        </label>
+                    </a>
                 </div>
                 {% endfor %}
             </div>    

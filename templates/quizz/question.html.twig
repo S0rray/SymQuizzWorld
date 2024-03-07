@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Questions
+{% endblock %}
+
+{% block body %}
+	<div class="d-flex">
+		<div class="container container-secondary p-3 rounded-3 mt-3 d-flex flex-column justify-content-center align-items-center w-75">
+            {% set user = app.user %}
+			<h2>{{ theme[0].name }} - Niveau {{ difficulty }}<br><br>
+			Question n°{% if difficulty == 'Débutant' %}{{ numb }}
+				{% elseif difficulty == 'Confirmé' %}{{ numb - 10 }}
+				{% elseif difficulty == 'Expert' %}{{ numb - 20 }}
+			{% endif %} : <span class="questionLabel">{{ question.question }}</span></h2>
+			<br><br><br>
+			<div class="flex-row w-75">
+				<div class="proposals-container">
+					<button class="btn btn-info">{{ proposals.firstProposal }}</button>
+					<button class="btn btn-info">{{ proposals.secondProposal }}</button>
+					<button class="btn btn-info">{{ proposals.thirdProposal }}</button>
+					<button class="btn btn-info">{{ proposals.fourthProposal }}</button>
+				</div>
+			</div>
+            <a href="{{ path('quizz_question', {'slug': theme[0].slug, 'name': difficulty }) }}" class="btn btn-primary btn-lg mt-2">{{ button_label|default('Valider') }}</a>
+		</div>
+	</div>
+{% endblock %}
