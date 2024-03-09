@@ -4,24 +4,36 @@
 {% endblock %}
 
 {% block body %}
-	<div class="d-flex">
-		<div class="container container-secondary p-3 rounded-3 mt-3 d-flex flex-column justify-content-center align-items-center w-75">
-            {% set user = app.user %}
-			<h2>{{ theme[0].name }} - Niveau {{ difficulty }}<br><br>
-			Question n°{% if difficulty == 'Débutant' %}{{ numb }}
-				{% elseif difficulty == 'Confirmé' %}{{ numb - 10 }}
-				{% elseif difficulty == 'Expert' %}{{ numb - 20 }}
-			{% endif %} : <span class="questionLabel">{{ question.question }}</span></h2>
-			<br><br><br>
-			<div class="flex-row w-75">
-				<div class="proposals-container">
-					<button class="btn btn-info">{{ proposals.firstProposal }}</button>
-					<button class="btn btn-info">{{ proposals.secondProposal }}</button>
-					<button class="btn btn-info">{{ proposals.thirdProposal }}</button>
-					<button class="btn btn-info">{{ proposals.fourthProposal }}</button>
+{% set user = app.user %}
+	{# Modal de non réponse #}
+	<div class="modal" id="modalError">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Erreur</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Veuillez glisser une proposition dans la zone de réponse.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
 				</div>
 			</div>
-            <a href="{{ path('quizz_question', {'slug': theme[0].slug, 'name': difficulty }) }}" class="btn btn-primary btn-lg mt-2">{{ button_label|default('Valider') }}</a>
 		</div>
 	</div>
+
+
+	<div class="d-flex">
+		<div class="container container-secondary p-3 rounded-3 mt-3 d-flex flex-column justify-content-center align-items-center w-75 text-center">
+            {% set user = app.user %}
+			<h2>{{ theme.name }} - Niveau {{ difficulty }}</h2><br>
+			<div id="quizzContent" class="d-flex flex-column justify-content-center align-items-center">
+			</div>
+		</div>
+	</div>
+{# SCRIPT #}
+<script src="{{ asset('assets/js/quizz/script.js') }}" defer></script>
 {% endblock %}

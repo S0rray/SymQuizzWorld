@@ -16,7 +16,7 @@
     width: 95%;
 }
 
-.userIntro, .questionLabel
+.userIntro, .questionLabel, .anecdote
 {
     color: #000;
 }
@@ -32,4 +32,13 @@
 .proposals-container
 {
     justify-content: space-around;
+}
+
+#answerArea
+{
+    width: 300px;
+    height: 200px;
+    border: 2px dashed #000;
+    border-radius: 15px;
+    background-color: #ffffff80;
 }
