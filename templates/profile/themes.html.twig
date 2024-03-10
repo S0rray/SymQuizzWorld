@@ -14,17 +14,21 @@
 							Mes thèmes
 						</button>
 					</h2>
-					<div id="collapseMyTheme" class="accordion-collapse collapse" aria-labelledby="myThemes" data-bs-parent="#accordionTheme" style="">
+					<div id="collapseMyTheme" class="accordion-collapse collapse" aria-labelledby="myThemes" data-bs-parent="#accordionTheme">
 						<div class="accordion-body">
 							{% set user = app.user %}
 							{% if user.themes is not empty %}
 								<h3>Thèmes de {{ user.username }} :</h3>
-								<ul>
+								<div class="btn-group-vertical">
 									{% for theme in user.themes %}
-										<li>{{ theme.name }}</li>
-										<!-- Affichez d'autres détails du thème si nécessaire -->
+										<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+											<a href="{{ path('profil_theme_edit', {'slug': theme.slug}) }}" class="btn btn-info">{{ theme.name }}</a>
+											<div class="btn-group" role="group">
+												<a class="btn btn-info" href="{{ path('profil_edit_choice', {'slug': theme.slug}) }}">Modifier les questions</a>
+											</div>
+										</div>
 									{% endfor %}
-								</ul>
+								</div>
 							{% else %}
 								<p>{{ user.username }}, vous n'avez pas créé de quizz.</p>
 							{% endif %}

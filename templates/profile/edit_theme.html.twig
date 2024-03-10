@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!
+{% endblock %}
+
+{% block body %}
+<div class="d-flex">
+	{% include "_partials/_menuprofile.html.twig" %}
+	<div class="container container-secondary p-3 rounded-3 mt-3 d-flex justify-content-center align-items-center w-75">
+		<div class="card border-primary mb-3 w-75">
+			<div class="card-header">
+				<div class="row">
+					<div class="col">Modification du thème {{ themeName }}</div>
+				</div>
+			</div>
+			<div class="card-body">
+				{% include "profile/_form_theme.html.twig" with {'button_label':'Modifier'} %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

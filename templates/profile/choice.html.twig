@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!
+{% endblock %}
+
+{% block body %}
+<div class="d-flex">
+	{% include "_partials/_menuprofile.html.twig" %}
+	<div class="container container-secondary p-3 rounded-3 mt-3 d-flex justify-content-center align-items-center w-75">
+		<div class="card border-primary mb-3 w-75">
+			<div class="card-header">
+				<div class="row">
+					<div class="col">Choisissez la question à modifier pour le thème {{ themeName }}</div>
+				</div>
+			</div>
+			<div class="card-body">
+				{% for question in questions %}
+					{% if question.numb is same as 1 %}
+						<h5>Difficulté Débutant</h5>
+					{% endif %}
+					{% if question.numb is same as 11 %}
+						<h5 class="mt-2">Difficulté Confirmé</h5>
+					{% endif %}
+					{% if question.numb is same as 21 %}
+						<h5 class="mt-2">Difficulté Expert</h5>
+					{% endif %}
+					<a href="{{ path('profil_edit_question', {'slug': slug, 'numb': question.numb}) }}" class="btn btn-info m-2">{{ question.numb }} - {{ question.question }}</a>
+				{% endfor %}
+				<div class="navigation d-flex justify-content-center">
+					{{ knp_pagination_render(questions) }}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
