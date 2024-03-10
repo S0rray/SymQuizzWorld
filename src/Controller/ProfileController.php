@@ -7,10 +7,7 @@ use App\Entity\Proposals;
 use App\Entity\Questions;
 use App\Entity\Difficulties;
 use App\Form\ThemesFormType;
-use App\Form\ProposalsFormType;
-use App\Form\QuestionsFormType;
 use App\Service\PictureService;
-use Doctrine\ORM\EntityManager;
 use App\Form\AddQuestionFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -183,8 +180,6 @@ class ProfileController extends AbstractController
     public function choiceQuestion(
         Request $request, 
         EntityManagerInterface $em, 
-        SluggerInterface $slugger, 
-        PictureService $pictureService,
         PaginatorInterface $paginator,
         string $slug
         ): Response

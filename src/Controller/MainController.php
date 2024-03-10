@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'accueil')]
-    public function index(ThemesRepository $themesRepository, DifficultiesRepository $difficultiesRepository, EntityManagerInterface $emi): Response
+    public function index(EntityManagerInterface $em): Response
     {
         // Vérifier si l'utilisateur est connecté ou non
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -23,10 +23,10 @@ class MainController extends AbstractController
         }
 
         // Récupération des thèmes en état complet
-        $completedThemes = $emi->getRepository(Themes::class)->findBy(['statut' => 'Complet']);
+        $completedThemes = $em->getRepository(Themes::class)->findBy(['statut' => 'Complet']);
 
         // Récupération des difficultés
-        $difficulties = $emi->getRepository(Difficulties::class)->findBy([], ['id' => 'ASC']);
+        $difficulties = $em->getRepository(Difficulties::class)->findBy([], ['id' => 'ASC']);
 
         return $this->render('main/index.html.twig', [
             'completedThemes' => $completedThemes,

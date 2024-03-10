@@ -7,8 +7,6 @@ use App\Entity\Proposals;
 use App\Entity\Questions;
 use App\Entity\Themes;
 use App\Entity\Users;
-use App\Repository\DifficultiesRepository;
-use App\Repository\ThemesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -133,7 +131,6 @@ class QuizzController extends AbstractController
     #[Route('/{slug}/difficulte_{name}/data', name: 'get_quizz_data')]
     public function getQuizzData(
         EntityManagerInterface $emi, 
-        SessionInterface $session,
         string $slug, 
         string $name,
         ): Response
