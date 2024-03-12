@@ -42,3 +42,13 @@
     border-radius: 15px;
     background-color: #ffffff80;
 }
+
+.cardTheme
+{
+    width: 22%;
+}
+
+.labelDifficulty
+{
+    font-size: 13px;
+}

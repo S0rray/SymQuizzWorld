@@ -3,10 +3,10 @@
 {% block title %}SymQuizzWorld - Accueil{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container d-flex flex-row justify-content-between flex-wrap">
     {# Affichage des thèmes complets #}
     {% for theme in completedThemes %}
-    <div class="card col-3">
+    <div class="card col-3 cardTheme my-2">
         <div class="card-body">
             <h5 class="card-title text-center">{{ theme.name }}</h5>
             <img src="{{ asset('assets/uploads/themes/mini/862x398-' ~ theme.picture) }}" class="card-img mb-2" alt="{{ theme.name }}">
@@ -15,7 +15,7 @@
                 <div class="form-check">
                     <a href="{{ path('quizz_start', {'slug': theme.slug, 'name': difficulty.name }) }}">
                         <input class="form-check-input" type="radio" name="{{ theme.name }}_difficulty" id="{{ difficulty.id }}" value="{{ difficulty.name }}" data-dashlane-rid="012abbf69d0b9427" data-form-type="other">
-                        <label class="form-check-label" for="{{ difficulty.id }}">
+                        <label class="form-check-label labelDifficulty" for="{{ difficulty.id }}">
                             {{ difficulty.name }}
                         </label>
                     </a>
@@ -25,6 +25,9 @@
         </div>
     </div>
     {% endfor %}
+</div>
+<div class="navigation d-flex justify-content-center">
+	{{ knp_pagination_render(completedThemes) }}
 </div>
 
 {% endblock %}

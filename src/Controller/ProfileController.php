@@ -155,9 +155,6 @@ class ProfileController extends AbstractController
             $slug = $slugger->slug($theme->getName());
             $theme->setSlug($slug);
 
-            //Définition du statut
-            $theme->setStatut('En cours');
-
             //Stockage du formulaire
             $em->persist($theme);
             $em->flush();
@@ -179,7 +176,7 @@ class ProfileController extends AbstractController
     #[Route('/mes-themes/edit/choice/{slug}', name: 'edit_choice')]
     public function choiceQuestion(
         Request $request, 
-        EntityManagerInterface $em, 
+        EntityManagerInterface $em,
         PaginatorInterface $paginator,
         string $slug
         ): Response

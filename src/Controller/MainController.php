@@ -2,19 +2,23 @@
 
 namespace App\Controller;
 
-use App\Entity\Difficulties;
 use App\Entity\Themes;
-use App\Repository\DifficultiesRepository;
-use App\Repository\ThemesRepository;
+use App\Entity\Difficulties;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'accueil')]
-    public function index(EntityManagerInterface $em): Response
+    public function index(
+        Request $request, 
+        EntityManagerInterface $em,
+        PaginatorInterface $paginator,
+        ): Response
     {
         // Vérifier si l'utilisateur est connecté ou non
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -28,8 +32,15 @@ class MainController extends AbstractController
         // Récupération des difficultés
         $difficulties = $em->getRepository(Difficulties::class)->findBy([], ['id' => 'ASC']);
 
+        
+        $paginate = $paginator->paginate(
+            $completedThemes,
+            $request->query->getInt('page', 1),
+            8
+        ); 
+
         return $this->render('main/index.html.twig', [
-            'completedThemes' => $completedThemes,
+            'completedThemes' => $paginate,
             'difficulties' => $difficulties,
         ]);
     }

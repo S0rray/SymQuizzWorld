@@ -25,6 +25,9 @@
 											<a href="{{ path('profil_theme_edit', {'slug': theme.slug}) }}" class="btn btn-info">{{ theme.name }}</a>
 											<div class="btn-group" role="group">
 												<a class="btn btn-info" href="{{ path('profil_edit_choice', {'slug': theme.slug}) }}">Modifier les questions</a>
+												{% if theme.statut != "Complet" %}
+													<a class="btn btn-info" href="{{ path('profil_ajout_question', {'slug': theme.slug}) }}">Ajouter des questions</a>
+												{% endif %}
 											</div>
 										</div>
 									{% endfor %}
