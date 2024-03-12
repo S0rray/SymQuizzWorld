@@ -5,20 +5,20 @@
 				Mon compte
 			</a></h3>
 		</li>
-		<li class="nav-item">
+		{# <li class="nav-item">
 			<h3><a href="{{ path('profil_scores') }}" class="nav-link text-center {% if app.request.attributes.get('_route') == 'profil_scores' %}menu-actif{% else %}link-body-emphasis{% endif %}">
 				Mes scores
 			</a></h3>
-		</li>
+		</li> #}
 		<li class="nav-item">
 			<h3><a href="{{ path('profil_themes') }}" class="nav-link text-center {% if app.request.attributes.get('_route') == 'profil_themes' or app.request.attributes.get('_route') ==  'profil_ajout_question' %}menu-actif{% else %}link-body-emphasis{% endif %}">
 				Mes thèmes
 			</a></h3>
 		</li>
-		<li class="nav-item">
+		{# <li class="nav-item">
 			<h3><a href="{{ path('profil_remove') }}" class="nav-link text-center {% if app.request.attributes.get('_route') == 'profil_remove' %}menu-actif{% else %}link-body-emphasis{% endif %}">
 				Supprimer<br>mon compte
 			</a></h3>
-		</li>
+		</li> #}
 	</ul>
 </div>

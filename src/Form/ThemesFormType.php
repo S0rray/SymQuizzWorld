@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ThemesFormType extends AbstractType
 {
@@ -18,10 +19,15 @@ class ThemesFormType extends AbstractType
     {
         $builder
             ->add('name', options:[
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ est requis'])
+                ]
             ])
             ->add('difficulty', ChoiceType::class, [
                 'label' => 'Difficulté',
+                'required' => true,
                 'choices' => [
                     '1' => 1,
                     '2' => 2,

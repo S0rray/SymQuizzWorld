@@ -1,6 +1,8 @@
 {{ form_start(addQuestionForm) }}
     {{ form_row(addQuestionForm.question) }}
+    {{ form_errors(addQuestionForm.question) }}
     {{ form_row(addQuestionForm.proposal) }}
+    {{ form_errors(addQuestionForm.proposal) }}
 
     <button type="submit" class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
 {{ form_end(addQuestionForm) }}
