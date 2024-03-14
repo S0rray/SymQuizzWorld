@@ -1,3 +1,8 @@
+{% for flashError in app.flashes('error') %}
+    <div class="alert alert-danger" role="alert">
+        {{ flashError }}
+    </div>
+{% endfor %}
 {{ form_start(addQuestionForm) }}
     {{ form_row(addQuestionForm.question) }}
     {{ form_errors(addQuestionForm.question) }}

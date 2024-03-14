@@ -22,9 +22,11 @@
 	{% if app.user %}
 		<nav class="navbar navbar-expand-sm">
 			<div class="container-fluid d-flex justify-content-center position-relative">
+						<img src="{{ asset('assets/img/LogoSymQuizzWorld.png') }}" alt="Logo" class="logoSite">
 				<!-- Titre centré par rapport à la page -->
 				<h1 class="position-absolute" style="left: 50%; transform: translateX(-50%);">
-					<a class="text-decoration-none text-white" href="/">Sym Quizz World</a>
+					<a class="text-decoration-none text-white" href="{{ path('accueil') }}">Sym Quizz World
+					</a>
 				</h1>
 				<!-- Aligner les éléments de la barre de navigation à droite sans interférer avec le centrage du titre -->
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">

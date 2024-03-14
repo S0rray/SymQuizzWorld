@@ -294,6 +294,24 @@ class ProfileController extends AbstractController
             // Définir la difficulté
             $question->setIdDifficulty($difficulty);
 
+            
+            $answer = $question->getAnswer();
+            $proposals = [
+                $proposal->getFirstProposal(),
+                $proposal->getSecondProposal(),
+                $proposal->getThirdProposal(),
+                $proposal->getFourthProposal(),
+            ];
+            if (!in_array($answer, $proposals)) {
+                // La réponse ne correspond à aucune des propositions, gestion de l'erreur ou autre action à effectuer
+                $this->addFlash('error', 'La réponse doit correspondre à l\'une des propositions.');
+                return $this->render('profile/ajout_question.html.twig', [
+                    'addQuestionForm' => $addQuestionForm->createView(),
+                    'themeName' => $themeName,
+                    'i' => $numberQuestion,
+                    'difficulte' => $difficulte,
+                ]);
+            }
             //Stockage du formulaire question
             $emi->persist($question);
             $emi->flush();
@@ -381,7 +399,24 @@ class ProfileController extends AbstractController
         //Vérification si le formulaire est soumis ET valide
         if($addQuestionForm->isSubmitted() && $addQuestionForm->isValid())
         {
-
+            $answer = $question->getAnswer();
+            $proposals = [
+                $proposal->getFirstProposal(),
+                $proposal->getSecondProposal(),
+                $proposal->getThirdProposal(),
+                $proposal->getFourthProposal(),
+            ];
+            if (!in_array($answer, $proposals)) {
+                // La réponse ne correspond à aucune des propositions, gestion de l'erreur ou autre action à effectuer
+                $this->addFlash('error', 'La réponse doit correspondre à l\'une des propositions.');
+                return $this->render('profile/edit_question.html.twig', [
+                    'addQuestionForm' => $addQuestionForm->createView(),
+                    'themeName' => $themeName,
+                    'numb' => $numb,
+                    'difficulte' => $questionDifficulty,
+                ]);
+            }
+            dd($question,$proposal);
             //Stockage du formulaire question
             $emi->persist($question);
             $emi->flush();
